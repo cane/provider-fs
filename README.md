@@ -20,7 +20,7 @@ Simulation file system transaction support, but is not guaranteed completely rel
 	e2.delete(...);
 	
  	e1.commit();
-	`Equivalent to:`
+`equivalent to:`
 	e2.commit();
  
 #### Readable fields:
@@ -47,6 +47,7 @@ Simulation file system transaction support, but is not guaranteed completely rel
 * readable `boolean`
 * readonly `boolean`
 * writable `boolean`
+
 ----
 
 Usage:
