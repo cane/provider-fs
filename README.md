@@ -5,12 +5,13 @@ Provides the ability to operate the file system, Based file system for large blo
  
 
 #### Restrictions:
-* The maximum length of a single file can not exceed Integer.MAX_VALUE.
+* The maximum length of a single file can not exceed Integer.MAX_VALUE, use the stream except(use `FsWritableField` not `put('body', in)`).
 * You can store files in each directory in the maximum number determined by the file system itself.
 * Allow the number of open files at the same time how much is determined by the runtime operating system.
 
 #### Transaction support:
 Simulation file system transaction support, but is not guaranteed completely reliable transaction.
+Isolation level currently is restricted to read committed.
 
 	Entity e1 = fac.get(...);
 	Entity e2 = fac.get(...);
@@ -77,3 +78,28 @@ Usage:
 	<bean id="photo" class="*.PhotoServiceImpl">
 		<property name="fsFactory" ref="fsFactory"></property>
 	</bean>
+	
+#### CRUD:
+
+	Entity e = factory.get(...);
+	
+	e.put("body", "test").create("testOne");//or
+	e.field("body").set("test").create();//Use UUID as the file name.
+	
+	Fields f = e.restore("testOne");
+	
+	e.put("body", "updated").update("testOne");
+	e.put("body", " end").opt(Options.APPEND, true)
+		.updateRange(e.expr().equals("name", "f-0")
+		.or().equals("name", "f-1"));
+										
+	e.delete("testOne");
+	e.deleteRange(e.expr().equals("name", "cane")
+		.or().equals("name", "hib"));
+	e.deleteRange(e.expr().like("name", "f-"));
+	
+	
+	
+	
+	
+	
